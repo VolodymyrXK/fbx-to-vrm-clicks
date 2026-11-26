@@ -1,7 +1,7 @@
 """FBX to VRM in a couple of clicks — Astra plugin.
 
 Wraps the mmd2vrm converter (engine/): MMD (.pmx/.pmd), FBX and VRM models become VRM 0.x / 1.0
-avatars. The assistant gets three tools; the full editor (3D preview, physics, wardrobe) opens in the
+avatars. The assistant gets three tools; the full editor (3D preview, physics, materials) opens in the
 user's browser like the stand-alone program.
 """
 
@@ -82,8 +82,8 @@ def _convert_sync(src, dst, cfg, vrm_version, use_editor_edits, animations):
             except Exception as e:  # a broken edits file must not stop a plain conversion
                 log("! правки из редактора не прочитаны: %s" % e)
         if kw is None:
-            phys = str(cfg.get("physics") or "anime")
-            kw = dict(physics=phys if phys in PHYSICS else "anime",
+            phys = str(cfg.get("physics") or "soft")
+            kw = dict(physics=phys if phys in PHYSICS else "soft",
                       tex_quality="best" if _as_bool(cfg.get("best_textures"), False) else "normal",
                       max_texture=4096 if _as_bool(cfg.get("best_textures"), False) else 2048,
                       target_mb=max(0.0, _as_num(cfg.get("max_mb"), 0.0)),
@@ -150,7 +150,7 @@ class FbxToVrmClicks(Plugin):
             "log_tail": [l for l in lines if l.strip()][-12:],
         }
 
-    @tool("Open the full mmd2vrm editor (3D preview, physics, materials, wardrobe, animations) in the "
+    @tool("Open the full mmd2vrm editor (3D preview, physics, materials, animations) in the "
           "browser, optionally with a model file already loaded.")
     async def open_vrm_editor(self, path: str = ""):
         src = _clean_path(path)

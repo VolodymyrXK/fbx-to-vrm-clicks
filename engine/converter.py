@@ -1467,6 +1467,9 @@ def _clean_overrides(ov):
             if d.get("id"):
                 items.append(d)
         out["wardrobe"] = items
+    # Astra plugin build: no wardrobe (clothes from the stand-alone editor's wardrobe are not applied)
+    out.pop("wardrobe", None)
+    out.pop("wd_keep", None)
     return out
 
 
@@ -2930,7 +2933,7 @@ class ConvertError(Exception):
 
 def convert(src, dst, scale=0.08, tpose=True, spring=True, outline=False,
             custom_blendshapes=True, title=None, author=None, max_texture=2048,
-            physics="anime", overrides=None, editor=False, ru_names=False, repair=False, face_from_bones=True, anime_face=True, vrm_version=0,
+            physics="soft", overrides=None, editor=False, ru_names=False, repair=False, face_from_bones=True, anime_face=True, vrm_version=0,
             target_mb=0, strip_hidden=False, tex_quality="normal", upscale_dir=None, bone_lang=None,
             tex_sharpen=0.0, log=print):
     """Convert PMX -> VRM 0.x.

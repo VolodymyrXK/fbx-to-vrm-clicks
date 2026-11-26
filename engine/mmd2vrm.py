@@ -25,7 +25,7 @@ def run_cli(argv):
     ap.add_argument("--presets-only", action="store_true", help="только пресетные выражения")
     ap.add_argument("--max-texture", type=int, default=2048,
                     help="макс. размер текстуры в px (0 = не уменьшать), по умолчанию 2048")
-    ap.add_argument("--physics", default="anime", choices=["anime", "realistic", "stiff", "soft", "dance", "heavy", "mmd"],
+    ap.add_argument("--physics", default="soft", choices=["anime", "realistic", "stiff", "soft", "dance", "heavy", "mmd"],
                     help="стиль физики: anime (по умолч.), realistic, stiff, mmd")
     ap.add_argument("--ru-names", action="store_true", help="русские имена костей в VRM")
     ap.add_argument("--no-face-bones", action="store_true", help="не создавать моргание/рот из костей век и челюсти")

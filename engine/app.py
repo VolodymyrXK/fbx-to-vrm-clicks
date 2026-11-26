@@ -101,7 +101,7 @@ def settings_kwargs(st):
         outline=bool(st.get("outline", False)),
         custom_blendshapes=bool(st.get("custom_blendshapes", True)),
         max_texture=max(0, _num(st.get("max_texture", 2048), 2048, int)),
-        physics=st.get("physics") if isinstance(st.get("physics"), str) else "anime",
+        physics=st.get("physics") if isinstance(st.get("physics"), str) else "soft",
         title=str(meta.get("title") or "") or None,
         author=str(meta.get("author") or "") or None,
         ru_names=bool(st.get("ru_names", False)),
@@ -115,7 +115,7 @@ def settings_kwargs(st):
         bone_lang=st.get("bone_lang") if st.get("bone_lang") in ("orig", "ru", "en") else None,
         upscale_dir=upscale_dir(upscale_model(st.get("upscale"))) if st.get("upscale") else None,
         tex_sharpen=min(1.0, max(0.0, _num(st.get("tex_sharpen", 0), 0.0))),
-        overrides={k: st.get(k) for k in ("humanoid", "materials", "chains", "presets", "renames", "splits", "body_fill", "wardrobe", "wd_keep") if st.get(k)},
+        overrides={k: st.get(k) for k in ("humanoid", "materials", "chains", "presets", "renames", "splits", "body_fill") if st.get(k)},
     )
 
 

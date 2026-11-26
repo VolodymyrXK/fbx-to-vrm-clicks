@@ -8,7 +8,7 @@ import { FitGuides } from './fitguides.js';
 // ------------------------------------------------------------------ state
 const DEFAULTS = () => ({
   scale: 0.08, tpose: true, spring: true, outline: false, custom_blendshapes: true,
-  max_texture: 2048, physics: 'anime', meta: { title: '', author: '' },
+  max_texture: 2048, physics: 'soft', meta: { title: '', author: '' },
   humanoid: {}, materials: {}, chains: {}, presets: {}, renames: {}, splits: {}, body_fill: [], wardrobe: [], ru_names: false, bone_lang: 'orig', tex_quality: 'normal', tex_sharpen: 0, upscale: false, repair: false, anime_face: true, target_mb: 0, strip_hidden: false,
 });
 const app = {
@@ -1095,7 +1095,7 @@ function renderPanel() {
     return;
   }
   const f = { parts: partsPanel, physics: physicsPanel, bones: bonesPanel, expr: exprPanel,
-              more: morePanel, wardrobe: wardrobePanel }[app.tab] || partsPanel;
+              more: morePanel }[app.tab] || partsPanel;
   const ib = issuesBar(); if (ib) P.append(ib);
   P.append(...f().filter(Boolean));
 }
