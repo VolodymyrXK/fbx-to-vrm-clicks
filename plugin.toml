@@ -1,0 +1,25 @@
+[plugin]
+id = "fbx-to-vrm-clicks"
+name = "FBX to VRM in a couple of clicks"
+version = "1.0.0"
+description = "Turns MMD (.pmx/.pmd) and FBX character models into VRM avatars, with a full editor for physics, materials and clothes."
+author = "VovaBOOMs"
+call_timeout_secs = 900
+
+[entry]
+command = "python"
+args = ["-m", "src.plugin"]
+cwd = "."
+runtimes = ["python"]
+
+[capabilities]
+tools = true
+
+[platform]
+os = ["linux", "windows"]
+arch = ["x86_64"]
+
+[permissions]
+
+[config]
+schema = "{ \"type\": \"object\", \"properties\": { \"vrm_version\": { \"type\": \"string\", \"enum\": [\"0\", \"1\"], \"default\": \"0\", \"title\": \"VRM version (0 = VRM 0.x, 1 = VRM 1.0)\" }, \"output_folder\": { \"type\": \"string\", \"default\": \"\", \"title\": \"Output folder (empty = next to the model)\" }, \"physics\": { \"type\": \"string\", \"enum\": [\"anime\", \"realistic\", \"stiff\", \"soft\", \"dance\", \"heavy\", \"mmd\"], \"default\": \"anime\", \"title\": \"Hair and clothes physics\" }, \"best_textures\": { \"type\": \"boolean\", \"default\": false, \"title\": \"Best texture quality (PNG, up to 4096 px)\" }, \"max_mb\": { \"type\": \"number\", \"default\": 0, \"minimum\": 0, \"title\": \"Max file size, MB (0 = no limit)\" }, \"ru_names\": { \"type\": \"boolean\", \"default\": false, \"title\": \"Russian names for expressions and parts\" } } }"

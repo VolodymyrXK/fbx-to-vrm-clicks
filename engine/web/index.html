@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>MMD → VRM</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css">
+<script type="importmap">
+{ "imports": {
+    "three": "./vendor/three.module.min.js",
+    "three/addons/": "./vendor/",
+    "@pixiv/three-vrm": "./vendor/three-vrm.module.min.js"
+} }
+</script>
+</head>
+<body>
+<header id="top">
+  <div class="brand">MMD <span>→</span> VRM</div>
+  <div class="dd" id="ddOpen">
+    <button id="btnOpen" class="primary" title="Открыть .pmx / .pmd / .fbx / .vrm или архив">📂 Открыть ▾</button>
+    <div class="dd-menu" hidden>
+      <button id="miFile">📄 Файл или архив…<span>.pmx .pmd .fbx .vrm .zip .rar .7z</span></button>
+      <button id="btnFolder">🗂 Папка…<span>найдёт все модели в папке и архивах</span></button>
+    </div>
+  </div>
+  <button id="chip" class="chip" hidden title="Состояние модели"></button>
+  <div class="grow"></div>
+  <button id="btnSave" class="accent" disabled title="Сохранить результат в файл VRM">💾 Сохранить VRM</button>
+  <button id="btnLaunch" title="Собрать VRM и сразу открыть в программе для аватаров (Astra, VSeeFace…)">▶ Проверить в программе</button>
+  <button id="btnLaunchPick" class="icon" title="Выбрать программу для проверки">⚙</button>
+</header>
+
+<main>
+  <aside id="side">
+    <nav id="tabs">
+      <button data-tab="parts" class="on"><i>🧩</i>Части<b class="dot"></b></button>
+      <button data-tab="physics"><i>🌀</i>Физика<b class="dot"></b></button>
+      <button data-tab="expr"><i>🙂</i>Лицо<b class="dot"></b></button>
+      <button data-tab="bones"><i>🦴</i>Скелет<b class="dot"></b></button>
+      <button data-tab="wardrobe" title="Снять и надеть одежду: встроенная одежда по фигуре, перенос одежды с других моделей"><i>👕</i>Гардероб<b class="dot"></b></button>
+      <button data-tab="more"><i>⋯</i>Ещё<b class="dot"></b></button>
+    </nav>
+    <section id="panel"></section>
+  </aside>
+  <div id="view">
+    <canvas id="c"></canvas>
+    <div id="status">Модель не открыта</div>
+    <div id="viewbar">
+      <button id="vFit" title="Показать модель целиком">⤢ Целиком</button>
+      <button id="vFace" title="Приблизить лицо">◉ Лицо</button>
+      <button id="vHelp" class="icon" title="Клик по модели — выбрать часть&#10;ЛКМ — вращать · ПКМ — сдвиг · колесо — зум&#10;Перетащите в окно файл, папку, архив или танец .vmd">?</button>
+    </div>
+    <div id="playbar">
+      <div class="seg" id="anim" title="Тестовое движение для проверки физики">
+        <button data-anim="tpose" title="Неподвижная T-поза">T-поза</button>
+        <button data-anim="idle" class="on">Стоит</button>
+        <button data-anim="sway">Качается</button>
+        <button data-anim="walk">Идёт</button>
+        <button data-anim="jump">Прыгает</button>
+        <button data-anim="spin">Кружится</button>
+        <select id="animSel" title="Встроенные движения: стойки, жесты, эмоции, танцы. Выбранные можно сохранить рядом с VRM (.vrma)"></select>
+        <button id="btnVmd" title="Загрузить танец MMD (.vmd) — или перетащите .vmd в окно">💃 Танец .vmd</button>
+      </div>
+      <button id="btnResetPhys" class="icon" title="Успокоить физику (вернуть пряди в покой)">⟲</button>
+      <button id="btnOrig" title="Показать рядом модель до ваших правок, с физикой исходника — обе двигаются одинаково">До / после</button>
+      <label class="chk" title="Показать кости, на которых работает физика"><input type="checkbox" id="showJoints"> кости физики</label>
+      <label class="chk" title="Показать коллайдеры тела"><input type="checkbox" id="showColliders"> коллайдеры</label>
+    </div>
+    <div id="empty">
+      <div class="big">Откройте модель — программа сама всё разберёт</div>
+      <div class="cards">
+        <button class="card" id="cardFile"><i>📄</i><b>Открыть файл</b><span>.pmx .pmd .fbx .vrm или архив .zip .rar .7z</span></button>
+        <button class="card" id="cardFolder"><i>🗂</i><b>Найти в папке</b><span>все модели в папке, подпапках и архивах</span></button>
+        <div class="card ghost"><i>⬇</i><b>Перетащите сюда</b><span>файл, папку или архив</span></div>
+      </div>
+      <div class="small">Дальше: проверьте Части → Физику → Лицо и нажмите «Сохранить VRM»</div>
+    </div>
+    <div id="rebuildBadge" hidden></div>
+    <div id="busy" hidden><div class="spinner"></div><div id="busyText">Конвертация…</div></div>
+  </div>
+</main>
+<div id="modal" hidden><div class="modal-box"><div id="modalBody"></div></div></div>
+<script type="module" src="app.js"></script>
+</body>
+</html>
