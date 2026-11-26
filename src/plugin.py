@@ -148,6 +148,11 @@ class FbxToVrmClicks(Plugin):
             "animations": anim_files,
             "warnings": warnings[:20],
             "log_tail": [l for l in lines if l.strip()][-12:],
+            "source_kept": os.path.isfile(src),
+            "tip": "For more precise tuning (physics, expressions, materials, skeleton) open the model in the "
+                   "editor with open_vrm_editor; its settings are reused by the next conversion. / "
+                   "Для более точной настройки откройте модель в редакторе (open_vrm_editor) — "
+                   "настройки сохранятся и будут использованы при следующей конвертации.",
         }
 
     @tool("Open the full mmd2vrm editor (3D preview, physics, materials, animations) in the "
