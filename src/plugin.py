@@ -20,6 +20,9 @@ if ENGINE not in sys.path:
 
 MODEL_EXT = (".pmx", ".pmd", ".fbx", ".vrm")
 PHYSICS = ("anime", "realistic", "stiff", "soft", "dance", "heavy", "mmd")
+# settings page shows the presets by their Russian names (as in the editor); old English values still work
+PHYSICS_RU = {"Плавный (стрим, VTuber)": "soft", "Аниме": "anime", "Реалистичный": "realistic", "Жёсткий": "stiff",
+              "Динамичный (танцы)": "dance", "Тяжёлый (длинные волосы, плащи)": "heavy", "Как в MMD": "mmd"}
 _LOCK = threading.Lock()  # the converter keeps module-level caches: one conversion at a time
 
 
@@ -82,7 +85,8 @@ def _convert_sync(src, dst, cfg, vrm_version, use_editor_edits, animations):
             except Exception as e:  # a broken edits file must not stop a plain conversion
                 log("! правки из редактора не прочитаны: %s" % e)
         if kw is None:
-            phys = str(cfg.get("physics") or "soft")
+            phys = str(cfg.get("physics") or "soft").strip()
+            phys = PHYSICS_RU.get(phys, phys)
             kw = dict(physics=phys if phys in PHYSICS else "soft",
                       tex_quality="best" if _as_bool(cfg.get("best_textures"), False) else "normal",
                       max_texture=4096 if _as_bool(cfg.get("best_textures"), False) else 2048,
@@ -91,7 +95,7 @@ def _convert_sync(src, dst, cfg, vrm_version, use_editor_edits, animations):
         if vrm_version in (0, 1):
             kw["vrm_version"] = vrm_version
         elif "vrm_version" not in kw:
-            kw["vrm_version"] = 1 if str(cfg.get("vrm_version", "0")).startswith("1") else 0
+            kw["vrm_version"] = 1 if str(cfg.get("vrm_version", "0")).replace("VRM", "").strip().startswith("1") else 0
         os.makedirs(os.path.dirname(dst) or ".", exist_ok=True)
         converter.convert(src, dst, log=log, **kw)
         anim_files = []
