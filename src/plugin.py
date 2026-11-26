@@ -15,7 +15,7 @@ import threading
 from astra_plugin_sdk import Plugin, tool
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-ENGINE = os.path.join(ROOT, "engine")
+ENGINE = os.path.join(ROOT, "src", "engine")
 if ENGINE not in sys.path:
     sys.path.insert(0, ENGINE)
 

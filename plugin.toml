@@ -4,6 +4,7 @@ name = "FBX to VRM in a couple of clicks"
 version = "1.3.0"
 description = "Turns MMD (.pmx/.pmd) and FBX character models into VRM avatars, saved next to the original. For more precise tuning, use the built-in editor."
 author = "VovaBOOMs"
+license = "GPL-3.0-only"
 call_timeout_secs = 900
 
 [entry]

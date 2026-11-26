@@ -1,6 +1,6 @@
 # FBX to VRM in a couple of clicks / Из FBX в VRM за пару кликов
 
-Author / Автор: **VovaBOOMs**
+Author / Автор: **VovaBOOMs** · License / Лицензия: **GPL-3.0-only** (see / см. `LICENSE`)
 
 [English](#english) · [Русский](#русский)
 
@@ -48,7 +48,7 @@ The settings page is shown in Astra's interface language (Russian and English ar
 3. On first start Astra installs the required libraries (numpy, Pillow and others); this can take a couple of minutes.
 4. After Astra restarts, a plugin loaded from a folder is switched off: turn it on in the Installed tab.
 
-Details about the converter itself: `engine/README_mmd2vrm.md` (in Russian).
+Details about the converter itself: `src/engine/README_mmd2vrm.md` (in Russian).
 
 ---
 
@@ -94,4 +94,4 @@ Workshop → Plugins → этот плагин → настройки: верс�
 3. При первом запуске Astra сама поставит нужные библиотеки (numpy, Pillow и др.) — это может занять пару минут.
 4. После перезапуска Astra плагин, загруженный из папки, выключен — включите его на вкладке Installed.
 
-Подробности о самом конвертере — в `engine/README_mmd2vrm.md`.
+Подробности о самом конвертере — в `src/engine/README_mmd2vrm.md`.

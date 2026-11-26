@@ -1,0 +1,27 @@
+{
+  "schema": "astra.plugin.locales/1",
+  "source": "en",
+  "locales": {
+    "ru": {
+      "config.best_textures.title": "cdb67e5fe46a",
+      "config.language.auto": "d4980088443e",
+      "config.language.en": "ba118bf7fc9c",
+      "config.language.ru": "6da140fdd4be",
+      "config.language.title": "2c5f69d5ea6a",
+      "config.max_mb.title": "eac065404560",
+      "config.output_folder.title": "348c974dc08e",
+      "config.physics.anime": "3eac161518fc",
+      "config.physics.dance": "95b28ed32f0a",
+      "config.physics.heavy": "742079398eec",
+      "config.physics.mmd": "ab680ffe7b6d",
+      "config.physics.realistic": "1e93db8999a7",
+      "config.physics.soft": "293637ead4ef",
+      "config.physics.stiff": "105a0e6c0290",
+      "config.physics.title": "05f0fde16ed9",
+      "config.ru_names.title": "12d254f5e73e",
+      "config.vrm_version.title": "16304e0814cd",
+      "listing.description": "418177c83476",
+      "listing.name": "e2dcac9fbd0f"
+    }
+  }
+}
