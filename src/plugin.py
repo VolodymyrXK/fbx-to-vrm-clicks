@@ -6,6 +6,7 @@ user's browser like the stand-alone program.
 """
 
 import asyncio
+import json
 import os
 import subprocess
 import sys
@@ -20,9 +21,56 @@ if ENGINE not in sys.path:
 
 MODEL_EXT = (".pmx", ".pmd", ".fbx", ".vrm")
 PHYSICS = ("anime", "realistic", "stiff", "soft", "dance", "heavy", "mmd")
-# settings page shows the presets by their Russian names (as in the editor); old English values still work
-PHYSICS_RU = {"Плавный (стрим, VTuber)": "soft", "Аниме": "anime", "Реалистичный": "realistic", "Жёсткий": "stiff",
-              "Динамичный (танцы)": "dance", "Тяжёлый (длинные волосы, плащи)": "heavy", "Как в MMD": "mmd"}
+
+
+def _load_locales():
+    out = {}
+    d = os.path.join(ROOT, "locales")
+    try:
+        for f in os.listdir(d):
+            if f.endswith(".json"):
+                with open(os.path.join(d, f), encoding="utf-8") as fh:
+                    out[f[:-5]] = json.load(fh)
+    except (OSError, ValueError):
+        pass
+    return out
+
+
+LOCALES = _load_locales()
+
+
+def _choice(value, family, ids):
+    """a dropdown value from the settings -> its id, whatever form Astra stored it in: the id itself, the
+    $key, the bare key or the label in any language (also labels of older plugin versions)"""
+    v = str(value or "").strip()
+    if v in ids:
+        return v
+    key = v.lstrip("$")
+    for i in ids:
+        if key == "config.%s.%s" % (family, i):
+            return i
+    for loc in LOCALES.values():
+        for i in ids:
+            if loc.get("config.%s.%s" % (family, i)) == v:
+                return i
+    return None
+
+
+OLD_PHYSICS = {"Плавный (стрим, VTuber)": "soft", "Аниме": "anime", "Реалистичный": "realistic", "Жёсткий": "stiff",
+               "Динамичный (танцы)": "dance", "Тяжёлый (длинные волосы, плащи)": "heavy", "Как в MMD": "mmd"}
+
+MSG = {
+    "no_file": {"ru": "Файл модели не найден: %s", "en": "Model file not found: %s"},
+    "bad_ext": {"ru": "Нужен файл .pmx, .pmd, .fbx или .vrm, а получен: %s",
+                "en": "Expected a .pmx, .pmd, .fbx or .vrm file, got: %s"},
+    "tip": {"ru": "Для более точной настройки (физика, выражения, материалы, скелет) откройте модель в редакторе "
+                  "(open_vrm_editor) — настройки сохранятся и будут использованы при следующей конвертации. "
+                  "Исходный файл остался на месте.",
+            "en": "For more precise tuning (physics, expressions, materials, skeleton) open the model in the editor "
+                  "(open_vrm_editor); its settings are reused by the next conversion. The original file was kept."},
+    "no_model": {"ru": "(без модели)", "en": "(no model)"},
+}
+
 _LOCK = threading.Lock()  # the converter keeps module-level caches: one conversion at a time
 
 
@@ -85,8 +133,8 @@ def _convert_sync(src, dst, cfg, vrm_version, use_editor_edits, animations):
             except Exception as e:  # a broken edits file must not stop a plain conversion
                 log("! правки из редактора не прочитаны: %s" % e)
         if kw is None:
-            phys = str(cfg.get("physics") or "soft").strip()
-            phys = PHYSICS_RU.get(phys, phys)
+            phys = _choice(cfg.get("physics"), "physics", PHYSICS) or OLD_PHYSICS.get(
+                str(cfg.get("physics") or "").strip(), "soft")
             kw = dict(physics=phys if phys in PHYSICS else "soft",
                       tex_quality="best" if _as_bool(cfg.get("best_textures"), False) else "normal",
                       max_texture=4096 if _as_bool(cfg.get("best_textures"), False) else 2048,
@@ -120,6 +168,21 @@ def _convert_sync(src, dst, cfg, vrm_version, use_editor_edits, animations):
 class FbxToVrmClicks(Plugin):
     """Astra plugin: FBX to VRM in a couple of clicks."""
 
+    def _lang(self):
+        """"Plugin language" setting: forced Russian / English, or the language Astra runs in"""
+        cfg = self.config if isinstance(self.config, dict) else {}
+        forced = _choice(cfg.get("language"), "language", ("auto", "ru", "en"))
+        if forced in ("ru", "en"):
+            return forced
+        try:
+            lang = str(self.language or "")
+        except Exception:
+            lang = ""
+        return "en" if lang.lower().startswith("en") else "ru"
+
+    def _t(self, key):
+        return MSG[key][self._lang()]
+
     @tool("Convert a 3D character model (MMD .pmx/.pmd, FBX or VRM file on this computer) into a VRM avatar. "
           "Returns the path of the saved .vrm file. Use when the user asks to make a VRM from a model file.")
     async def convert_to_vrm(self, path: str, output: str = "", vrm_version: int = -1,
@@ -130,9 +193,9 @@ class FbxToVrmClicks(Plugin):
         comma-separated built-in animation ids (or "all") saved next to the VRM as .vrma files."""
         src = _clean_path(path)
         if not src or not os.path.isfile(src):
-            raise ValueError("Файл модели не найден: %s" % (path or "(пусто)"))
+            raise ValueError(self._t("no_file") % (path or "-"))
         if not src.lower().endswith(MODEL_EXT):
-            raise ValueError("Нужен файл .pmx, .pmd, .fbx или .vrm, а получен: %s" % os.path.basename(src))
+            raise ValueError(self._t("bad_ext") % os.path.basename(src))
         cfg = self.config if isinstance(self.config, dict) else {}
         dst = _output_for(src, output, cfg.get("output_folder"))
         try:
@@ -153,10 +216,7 @@ class FbxToVrmClicks(Plugin):
             "warnings": warnings[:20],
             "log_tail": [l for l in lines if l.strip()][-12:],
             "source_kept": os.path.isfile(src),
-            "tip": "For more precise tuning (physics, expressions, materials, skeleton) open the model in the "
-                   "editor with open_vrm_editor; its settings are reused by the next conversion. / "
-                   "Для более точной настройки откройте модель в редакторе (open_vrm_editor) — "
-                   "настройки сохранятся и будут использованы при следующей конвертации.",
+            "tip": self._t("tip"),
         }
 
     @tool("Open the full mmd2vrm editor (3D preview, physics, materials, animations) in the "
@@ -164,7 +224,7 @@ class FbxToVrmClicks(Plugin):
     async def open_vrm_editor(self, path: str = ""):
         src = _clean_path(path)
         if src and not os.path.isfile(src):
-            raise ValueError("Файл модели не найден: %s" % path)
+            raise ValueError(self._t("no_file") % path)
         args = [sys.executable, os.path.join(ENGINE, "app.py")] + ([src] if src else [])
         kw = {"cwd": ENGINE, "stdin": subprocess.DEVNULL, "stdout": subprocess.DEVNULL,
               "stderr": subprocess.DEVNULL}
@@ -173,7 +233,7 @@ class FbxToVrmClicks(Plugin):
         else:
             kw["start_new_session"] = True
         subprocess.Popen(args, **kw)
-        return {"ok": True, "opened": src or "(без модели)"}
+        return {"ok": True, "opened": src or self._t("no_model")}
 
     @tool("List the built-in animations that can be saved next to a VRM as .vrma files "
           "(ids for the 'animations' argument of convert_to_vrm).")

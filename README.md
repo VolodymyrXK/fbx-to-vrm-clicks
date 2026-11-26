@@ -36,7 +36,10 @@ Just ask the assistant:
 ### Settings
 
 Workshop → Plugins → this plugin → settings: VRM version, output folder, hair and clothes physics,
-best texture quality, file size limit, Russian names for expressions and parts.
+best texture quality, file size limit, Russian names for expressions and parts, plugin language.
+
+The settings page is shown in Astra's interface language (Russian and English are included). The
+"Plugin language" option forces the language of the plugin's own messages (Like Astra / Русский / English).
 
 ### Installing for testing
 
@@ -79,7 +82,10 @@ MMD (.pmx, .pmd), FBX (рипы из игр, Mixamo, Blender, Unity, Unreal) и 
 ### Настройки
 
 Workshop → Plugins → этот плагин → настройки: версия VRM, папка для результата, физика волос и одежды,
-максимальное качество текстур, ограничение размера файла, русские названия выражений и частей.
+максимальное качество текстур, ограничение размера файла, русские названия выражений и частей, язык плагина.
+
+Страница настроек показывается на языке интерфейса Astra (есть русский и английский). Пункт «Язык плагина»
+принудительно переключает язык сообщений самого плагина (Как в Astra / Русский / English).
 
 ### Установка для проверки
 

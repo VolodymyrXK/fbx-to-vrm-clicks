@@ -1,0 +1,21 @@
+{
+  "listing.name": "FBX to VRM in a couple of clicks",
+  "listing.description": "Turns MMD (.pmx/.pmd) and FBX character models into VRM avatars, saved next to the original. For more precise tuning, use the built-in editor.",
+  "config.vrm_version.title": "VRM version",
+  "config.output_folder.title": "Output folder for VRM files (empty = next to the model)",
+  "config.physics.title": "Hair and clothes physics (\"Smooth\" is best for Astra)",
+  "config.physics.soft": "Smooth (streaming, VTuber)",
+  "config.physics.anime": "Anime",
+  "config.physics.realistic": "Realistic",
+  "config.physics.stiff": "Stiff",
+  "config.physics.dance": "Dynamic (dance)",
+  "config.physics.heavy": "Heavy (long hair, cloaks)",
+  "config.physics.mmd": "As in MMD",
+  "config.best_textures.title": "Best texture quality (PNG, up to 4096 px)",
+  "config.max_mb.title": "Max file size, MB (0 = no limit)",
+  "config.ru_names.title": "Russian names for expressions and parts",
+  "config.language.title": "Plugin language (messages to the assistant)",
+  "config.language.auto": "Like Astra",
+  "config.language.ru": "Русский",
+  "config.language.en": "English"
+}

@@ -1,0 +1,21 @@
+{
+  "listing.name": "Из FBX в VRM за пару кликов",
+  "listing.description": "Превращает модели MMD (.pmx/.pmd) и FBX в аватары VRM и сохраняет рядом с исходником. Для более точной настройки используйте встроенный редактор.",
+  "config.vrm_version.title": "Версия VRM",
+  "config.output_folder.title": "Папка для готовых VRM (пусто — рядом с моделью)",
+  "config.physics.title": "Физика волос и одежды («Плавная» — лучше всего для Astra)",
+  "config.physics.soft": "Плавная (стрим, VTuber)",
+  "config.physics.anime": "Аниме",
+  "config.physics.realistic": "Реалистичная",
+  "config.physics.stiff": "Жёсткая",
+  "config.physics.dance": "Динамичная (танцы)",
+  "config.physics.heavy": "Тяжёлая (длинные волосы, плащи)",
+  "config.physics.mmd": "Как в MMD",
+  "config.best_textures.title": "Максимальное качество текстур (PNG, до 4096 px)",
+  "config.max_mb.title": "Максимальный размер файла, МБ (0 — без ограничения)",
+  "config.ru_names.title": "Русские названия выражений и частей",
+  "config.language.title": "Язык плагина (сообщения ассистенту)",
+  "config.language.auto": "Как в Astra",
+  "config.language.ru": "Русский",
+  "config.language.en": "English"
+}
