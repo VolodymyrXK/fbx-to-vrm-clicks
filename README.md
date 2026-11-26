@@ -1,6 +1,6 @@
 # FBX to VRM in a couple of clicks / Из FBX в VRM за пару кликов
 
-Author / Автор: **VovaBOOMs** · License / Лицензия: **GPL-3.0-only** (see / см. `LICENSE`)
+Author / Автор: **VovaBOOMs** · License / Лицензия: **GPL-3.0-only** (see / см. `COPYING`)
 
 [English](#english) · [Русский](#русский)
 
