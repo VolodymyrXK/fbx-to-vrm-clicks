@@ -1,7 +1,7 @@
 [plugin]
 id = "fbx-to-vrm-clicks"
 name = "FBX to VRM in a couple of clicks"
-version = "1.1.1"
+version = "1.1.2"
 description = "Turns MMD (.pmx/.pmd) and FBX character models into VRM avatars, saved next to the original. For more precise tuning, use the built-in editor."
 author = "VovaBOOMs"
 call_timeout_secs = 900
